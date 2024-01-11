@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+        body{
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.4));
+        }
+        .calculator{
+            background-color: aqua;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            padding: 0.4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 350px;
+            height: 400px;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+        .display{
+            width: 250px;
+            min-height: 45px;
+            border: 1px solid rgb(0,0,0,0.2);
+            background: gray;
+            color: black;
+            text-align: end;
+            padding: 0 0.2rem;
+            font-size: 1.2rem;
+        }
+        .buttons{
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(4,60px);
+            gap: 1px;
+        }
+        .buttons>button{
+            height: 50px;
+            width: 60px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display">0</div>
+        <div class="buttons"></div>
+    </div>
+</body>
+<script>
+    //query for the html elements
+    const buttons=document.querySelector(".buttons");
+    const display=document.querySelector(".display");
+
+    //create an array of elements to be in your calculator
+    let buttonsarray=[
+        7,8,9,"/",4,5,6,"*",1,2,3,"+",0,".","-","=","C","DEL",
+    ];
+
+    //declare an empty array of values to be storing the values keyed in in the calculator
+    let values=[];
+    let cleanValues;//will be used to clear the stored elements in the empty array created above
+
+    //lets now add our buttonarrays into the html document
+    for(let a=0;a<buttonsarray.length;a++){
+        let button=document.createElement("button");//creates the buttons elements in html doc
+        button.textContent=buttonsarray[a];//adding the looped elements into the array
+        buttons.appendChild(button);//adds element into the html
+    }//run up to now and see what happends
+    //adding action performed for all the buttons
+    let calcButtons=document.querySelectorAll(".buttons button");
+    calcButtons.forEach((item)=>{
+        item.addEventListener("click",(e)=>{
+            //console.log(e.target.textContent);
+            calculateArray(e.target.textContent);//target option shows the targeted property which is the textcontent
+        });
+    });//run up to now and see what happends in the console page
+
+    //implement the calculate method now
+    let calculateArray=(value)=>{
+        if(value==="C"){
+            values=[];
+            display.textContent="0";//once c is clicked it sets the textcontent back to zero
+            return;
+        }
+        if(value==="DEL"){
+            values.pop();
+            display.textContent=values.join("");//once clicked it removes the last element in the textcontent+
+            return;
+        }
+        if(value !="="){
+            values.push(value);
+            cleanValues=values.join("");//b4 this try to run and see what happens
+            display.textContent=cleanValues;
+        }else{
+            let result=eval(cleanValues);//eval is an inbuild library for all arithmetic operations performance
+            display.textContent=result;
+            values=[];
+        }
+    }
+    /* !!! GOD IS HELPING US */
+</script>
+</html>
